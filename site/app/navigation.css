@@ -1,0 +1,115 @@
+/* Hallmark | navigation: abertura lateral com controle único */
+.rail {
+  position: fixed;
+  inset: 0 0 0 auto;
+  width: var(--rail-size);
+  z-index: 10;
+  pointer-events: none;
+}
+.rail-panel {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template: auto 1fr auto / minmax(0, 1fr);
+  align-items: center;
+  border-left: 1px solid var(--dark-rule);
+  background: radial-gradient(ellipse at right 44%, var(--rail-glow), transparent 64%), var(--rail-bg);
+  backdrop-filter: blur(20px);
+  pointer-events: auto;
+  transition: transform .36s var(--ease), opacity .29s, visibility 0s;
+}
+.rail[data-open="false"] .rail-panel {
+  visibility: hidden;
+  opacity: 0;
+  transform: translateX(100%);
+  pointer-events: none;
+  transition: transform .36s var(--ease), opacity .29s, visibility 0s .36s;
+}
+.rail-toggle {
+  position: absolute;
+  top: 15px;
+  right: 16px;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border: 1px solid var(--dark-rule);
+  border-radius: 50%;
+  background: var(--rail-bg);
+  box-shadow: 0 8px 24px var(--hero-shadow);
+  cursor: pointer;
+  pointer-events: auto;
+  transition: background .23s, color .23s, border-color .23s;
+}
+.rail-toggle svg {
+  grid-area: 1 / 1;
+  width: 21px;
+  height: 21px;
+  stroke-width: 1.7;
+  transition: transform .28s var(--ease), opacity .2s;
+}
+.rail-close-icon, .rail-toggle[aria-expanded="true"] .rail-menu-icon { opacity: 0; transform: rotate(-35deg) scale(.75); }
+.rail-toggle[aria-expanded="true"] .rail-close-icon { opacity: 1; transform: none; }
+.rail-toggle:hover, .rail-social a:hover { background: var(--rose); color: var(--ink); border-color: var(--rose); }
+
+.rail-social { display: flex; justify-content: center; align-items: center; gap: 8px; padding: 77px 10px 22px; border-bottom: 1px solid var(--dark-rule); }
+.rail-social a {
+  display: grid;
+  place-items: center;
+  width: 43px;
+  height: 43px;
+  border: 1px solid var(--dark-rule);
+  border-radius: 50%;
+  transition: background .23s, color .23s, border-color .23s;
+}
+.rail-social svg { width: 17px; height: 17px; stroke-width: 1.65; }
+.rail-nav { display: grid; gap: 4px; padding: 0 10px; }
+.rail-nav a { display: flex; gap: 9px; align-items: center; min-height: 44px; padding: 0 7px; color: var(--light-soft); font-size: .78rem; border-radius: var(--radius); transition: background .25s, color .25s; }
+.rail-nav a:is(:hover, [aria-current]) { color: var(--warm-white); }
+.rail-nav a[aria-current] { background: var(--rail-glow); }
+.rail-indicator { width: 6px; height: 6px; border-radius: 50%; background: transparent; transform: scale(.35); transition: transform .25s, background .25s; }
+.rail-nav a[aria-current] .rail-indicator { background: var(--rose); transform: scale(1); }
+.rail-brand { display: grid; place-items: center; width: 100%; padding-block: 8px; margin: 0 0 24px; opacity: .86; }
+.rail-brand:hover { opacity: 1; }
+.rail-brand img { display: block; width: min(108px, 100%); height: auto; }
+
+@media (min-width: 821px) and (max-width: 1570px) {
+  .page-main .container { width: min(1250px, calc(100% - var(--side) * 2 - var(--rail-size))); margin-left: var(--side); }
+}
+@media (min-width: 821px) and (max-height: 545px) {
+  .rail-panel { overflow-y: auto; }
+  .rail-social { padding-block: 66px 12px; }
+  .rail-nav a { min-height: 38px; }
+  .rail-brand { margin-bottom: 9px; }
+}
+@media (max-width: 820px) {
+  .rail { inset: auto max(13px, env(safe-area-inset-right)) max(13px, env(safe-area-inset-bottom)) auto; width: 46px; height: 46px; }
+  .rail-toggle { inset: 0; }
+  .rail-panel {
+    inset: auto 0 calc(100% + 10px) auto;
+    width: min(215px, calc(100vw - 26px));
+    max-height: calc(100dvh - 83px);
+    overflow-y: auto;
+    border: 1px solid var(--dark-rule);
+    border-radius: 20px;
+    box-shadow: 0 12px 36px var(--hero-shadow);
+    transform-origin: bottom right;
+    overscroll-behavior: contain;
+  }
+  .rail[data-open="false"] .rail-panel {
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(10px) scale(.96);
+    pointer-events: none;
+    transition: transform .32s var(--ease), opacity .25s, visibility 0s .32s;
+  }
+  .rail-social { padding: 12px; }
+  .rail-nav { padding: 8px; }
+  .rail-nav a { font-size: .84rem; }
+  .rail-brand { margin-bottom: 7px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rail .rail-panel, .rail-toggle svg { transition: none; }
+}

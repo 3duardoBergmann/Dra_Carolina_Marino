@@ -1,0 +1,12 @@
+node_modules/
+.next/
+.next-launch/
+.hallmark/
+out/
+*.tsbuildinfo
+next-env.d.ts
+.playwright-cli/
+.taste-skill/
+.impeccable/
+graphify-out/
+
